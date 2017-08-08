@@ -114,6 +114,7 @@ Update npm packages: ``cd rephink/assets``
 ```
 ncu -u
 ncu -a
+npm install
 ```
 
 If you got it all right this should create a database called "rephink"
@@ -170,7 +171,7 @@ defmodule Rephink.Posts.Post do
 end
 ```
 
-> Add validations `` ``
+> Add validations ``lib/rephink/posts/post.ex``
 
 ```
 defmodule Rephink.Posts.Post do
@@ -196,6 +197,8 @@ You can also run your app inside IEx (Interactive Elixir) as:
 
 
 Now you can visit [`localhost:4000/posts`](http://localhost:4000/posts) from your browser.
+
+![rephink](/assets/static/images/rethinkdb.png "rephink")
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
