@@ -5,7 +5,7 @@ defmodule Rephink.Mixfile do
     [
       app: :rephink,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
@@ -42,7 +42,10 @@ defmodule Rephink.Mixfile do
       {:cowboy, "~> 1.0"},
       {:rethinkdb, "~> 0.4.0"},
       {:rethinkdb_ecto, "~> 0.7"},
-      {:rethinkdb_changefeed, "~> 0.0.1"}
+      {:rethinkdb_changefeed, "~> 0.0.1"},
+      {:ex_machina, "~> 2.0", only: [:dev, :test]},
+      {:faker, "~> 0.8", only: [:dev, :test]},
+      {:poolboy, "~> 1.5"}
     ]
   end
 

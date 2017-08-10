@@ -11,9 +11,9 @@ config :logger, level: :warn
 
 # Configure your database
 config :rephink, Rephink.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "rephink_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  [port: 28015, host: "localhost", database: "rephink", db: "rephink"]
+  #adapter: RethinkDB.Ecto,
+  #database: "rephink_test",
+  #hostname: "localhost",
+  #port: 28015,
+  #pool_size: 10

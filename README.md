@@ -188,6 +188,69 @@ defmodule Rephink.Posts.Post do
 end
 ```
 
+> Testing
+
+RethinkDB beeing by nature a NoSQL database with basic support for table
+relationship, you should be aware of following limitations/incompabilities
+with Ecto.
+
+*Connection Pool*
+
+The adapter does not support connection pooling. All the queries are
+executed on the same connection. Due to the multiplex nature of
+RethinkDB connections, a single connection should do just fine for most
+use cases.
+
+*Primary Keys*
+
+The data type of a primary key is a UUID ``:binary_id``. In order to
+work properly, you must add the following attributes to your schema
+definitions:
+
+```
+@primary_key {:id, :binary_id, autogenerate: false}
+@foreign_key_type :binary_id
+```
+
+You can set the ``:autogenerate`` option to true if you want to generate
+primary keys on the client side.
+
+*Unique Indexes*
+
+*RethinkDB* does not support unique secondary indexes. When running
+migrations with unique indexes, you will get a warning. Nevertheless,
+the index will be created.
+
+> Add Faker Data
+
+In file ``priv/repo/seeds.exs`` was added a fakers data, for generation
+it you need run: ``mix run priv/repo/seeds.exs``.
+
+> Ten minute guide with RethinkDB Elixir
+
+
+```bash
+iex -S mix
+```
+
+```
+import RethinkDB.Query
+
+{:ok, conn} = RethinkDB.Connection.start_link([db: :rephink])
+
+table("posts") |> RethinkDB.run(conn)
+table("posts") |> filter(%{title: "reiciendis"}) |> RethinkDB.run(conn)
+table("posts") |> RethinkDB.Query.get("f2ece6bf-d375-41b4-a578-563090c69f8d") |> RethinkDB.run(conn)
+table("posts") |> filter(%{title: "reiciendis"}) |> update(%{content: "admiral"}) |> RethinkDB.run(conn)
+table("posts") |> filter(fn (post) -> post[:title] != "ttt" || post[:title] == "delectus"
+
+query = table("posts") |>
+  filter(fn (post) ->
+    post[:title] != "boring stuff" || post[:author] == "Greg"
+  end)
+MyConnection.query(Post, query)
+```
+
 > To start your Phoenix server:
 
 We are all set! Run Phoenix application: ``$ mix phx.server``

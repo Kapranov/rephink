@@ -51,11 +51,10 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :rephink, Rephink.Repo,
   # version 1
-  # [port: 28015, host: "localhost", database: "rephink", db: "rephink"]
+  [port: 28015, host: "localhost", database: "rephink", db: "rephink"]
   # version 2
-  adapter: RethinkDB.Ecto,
-  database: "rephink",
-  db: "rephink",
-  hostname: "localhost",
-  port: 28015,
-  pool_size: 10
+  # adapter: RethinkDB.Ecto,
+  # database: "rephink",
+  # hostname: "localhost",
+  # port: 28015,
+  # pool_size: 10
