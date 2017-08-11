@@ -1,7 +1,6 @@
 defmodule Rephink.Posts.Post do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Rephink.Posts.Post
 
   schema "posts" do
     field :content, :string

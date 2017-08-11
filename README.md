@@ -107,7 +107,7 @@ $ mix run priv/repo/seeds.exs
 $ mix test
 $ mix phx.server
 # or
-$ iex -S mix
+$ iex -S mix phx.server
 
 $ export MIX_ENV=prod
 $ mix ecto.create
@@ -118,8 +118,30 @@ $ mix test
 
 Let's quickly make sure the [model][2] is working with iex ``iex -S mix``:
 
+```bash
+sqlite3 rephink.sqlite3 .schema
+CREATE TABLE "schema_migrations" ("version" BIGINT PRIMARY KEY, "inserted_at" DATETIME);
+CREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "title" STRING, "content" TEXT, "inserted_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL);
 ```
+
+```
+import Ecto.Query
+
+query = from w in Rephink.Posts.Post, where: w.title == "sit"
+Rephink.Repo.all(query)
+
+Rephink.Repo.delete_all(Rephink.Posts.Post)
+
 Rephink.Repo.all(Rephink.Posts.Post |> select([post], post.title))
+Rephink.Repo.insert(%Rephink.Posts.Post{title: "Notice", content: "how it resembles."})
+```
+
+> Increasing the amount of inotify watchers for Debian
+
+
+```bash
+cat /proc/sys/fs/inotify/max_user_watches
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
 ```
 
 ### Oleg G.Kapranov August 2017
