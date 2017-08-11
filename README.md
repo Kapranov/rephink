@@ -106,7 +106,7 @@ $ mix ecto.migrate
 $ mix run priv/repo/seeds.exs
 $ mix test
 $ mix phx.server
-# ``or``
+# or
 $ iex -S mix
 
 $ export MIX_ENV=prod
