@@ -15,4 +15,6 @@ config :rephink, :ecto_adapter, Sqlite.Ecto2
 config :rephink, Rephink.Repo,
   adapter: Application.get_env(:rephink, :ecto_adapter),
   database: "test/rephink_test.sqlite3",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  size: 1,
+  max_overflow: 0

@@ -51,6 +51,4 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :rephink, Rephink.Repo,
   adapter: Sqlite.Ecto2,
-  database: "rephink.sqlite3",
-  size: 1,
-  max_overflow: 0
+  database: "rephink.sqlite3"
