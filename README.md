@@ -116,7 +116,7 @@ $ mix test
 ```
 
 
-Let's quickly make sure the model is working with iex ``iex -S mix``:
+Let's quickly make sure the [model][2] is working with iex ``iex -S mix``:
 
 ```
 Rephink.Repo.all(Rephink.Posts.Post |> select([post], post.title))
@@ -125,3 +125,4 @@ Rephink.Repo.all(Rephink.Posts.Post |> select([post], post.title))
 ### Oleg G.Kapranov August 2017
 
 [1]: https://github.com/scouten/sqlite_ecto2
+[2]: https://github.com/scouten/sqlite_ecto2/blob/master/docs/tutorial.md
