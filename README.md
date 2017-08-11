@@ -1,10 +1,8 @@
-# Phoenix using [Sqlite.Ecto2][1] as a Test Database and Elm, Webpack
+# Phoenix using [Sqlite.Ecto2][1] as a Test Database
 
 Configuring Ecto ``mix_ex``:
 
 ```
-...
-
 defp deps do
   [
     {:phoenix, "~> 1.3.0"},
@@ -20,27 +18,19 @@ defp deps do
     {:poolboy, "~> 1.5"}
   ]
 end
-
-...
 ```
 
-Edit the ``config/config.exs:
+Edit the ``config/config.exs``:
 
 ```
-...
-
 config :rephink, Rephink.Repo,
   adapter: Sqlite.Ecto2,
   database: "rephink.sqlite3"
-
-...
 ```
 
 Edit the ``config/dev.exs``:
 
 ```
-...
-
 config :rephink, Rephink.Repo,
   adapter: Sqlite.Ecto2,
   database: "rephink.sqlite3",
@@ -51,8 +41,6 @@ config :rephink, Rephink.Repo,
 Edit the ``config/test.exs``:
 
 ```
-...
-
 config :rephink, :ecto_adapter, Sqlite.Ecto2
 
 config :rephink, Rephink.Repo,
@@ -67,13 +55,9 @@ Edit the ``Rephink.Repo`` module in ``lib/rephink/repo.ex`` to use
 the ``sqlite_ecto2`` adapter:
 
 ```
-...
-
 defmodule Rephink.Repo do
   use Ecto.Repo, otp_app: :rephink, adapter: Application.get_env(:rephink, :ecto_adapter)
 end
-
-...
 ```
 
 Edit file ``test/test_helper.exs``:
@@ -102,7 +86,6 @@ defmodule Rephink.Posts.Post do
   @doc false
   def changeset(struct, params \\ %{}) do
     struct
-    #|> cast(params, [:title, :content])
     |> cast(params, ~w(title content))
     |> validate_required([:title, :content])
     |> validate_length(:title, min: 5, max: 10)
@@ -133,7 +116,7 @@ $ mix test
 ```
 
 
- Let's quickly make sure the model is working with iex ``iex -S mix``:
+Let's quickly make sure the model is working with iex ``iex -S mix``:
 
 ```
 Rephink.Repo.all(Rephink.Posts.Post |> select([post], post.title))
