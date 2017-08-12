@@ -273,7 +273,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * [Phoenix Mailing list][4]
   * [Phoenix Source on Github][5]
   * [Why changes in Phoenix 1.3 are so important?][6]
-  * [KEYNOTE: Phoenix 1.3 Video Presetation][7]
+  * [KEYNOTE: Phoenix 1.3 by Chris McCord Video][7]
   * [Phoenix 1.2.x to 1.3.0 Upgrade Instructions][8]
 
 ### Oleg G.Kapranov August 2017
