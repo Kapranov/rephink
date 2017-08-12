@@ -267,14 +267,22 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## Learn more
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
-  * Why changes in Phoenix 1.3 are so important?: https://medium.com/wemake-services/why-changes-in-phoenix-1-3-are-so-important-2d50c9bdabb9
-  * KEYNOTE: Phoenix 1.3: https://www.youtube.com/watch?v=tMO28ar0lW8
-  * Phoenix 1.2.x to 1.3.0 Upgrade Instructions: https://gist.github.com/chrismccord/71ab10d433c98b714b75c886eff17357
-
+  * [Elixir Official website][1]
+  * [Phoenix Guides][2]
+  * [Phoenix Docs][3]
+  * [Phoenix Mailing list][4]
+  * [Phoenix Source on Github][5]
+  * [Why changes in Phoenix 1.3 are so important?][6]
+  * [KEYNOTE: Phoenix 1.3 Video Presetation][7]
+  * [Phoenix 1.2.x to 1.3.0 Upgrade Instructions][8]
 
 ### Oleg G.Kapranov August 2017
+
+[1]: http://www.phoenixframework.org/
+[2]: http://phoenixframework.org/docs/overview
+[3]: https://hexdocs.pm/phoenix
+[4]: http://groups.google.com/group/phoenix-talk
+[5]: https://github.com/phoenixframework/phoenix
+[6]: https://medium.com/wemake-services/why-changes-in-phoenix-1-3-are-so-important-2d50c9bdabb9
+[7]: https://www.youtube.com/watch?v=tMO28ar0lW8
+[8]: https://gist.github.com/chrismccord/71ab10d433c98b714b75c886eff17357
