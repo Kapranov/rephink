@@ -6,6 +6,8 @@ config :rephink, RephinkWeb.Endpoint,
 
 config :logger, level: :warn
 
+config :rephink, :ecto_adapter, Sqlite.Ecto2
+
 config :rephink, Rephink.Repo,
   adapter: Application.get_env(:rephink, :ecto_adapter),
   database: "test/rephink_test.sqlite3",

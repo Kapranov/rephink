@@ -1,8 +1,3 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
 # General application configuration
@@ -27,6 +22,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
+# Configures schema and migration
+config :rephink, :generators,
+  migration: true,
+  binary_id: true,
+  sample_binary_id: "11111111-1111-1111-1111-111111111111"
+
 import_config "#{Mix.env}.exs"

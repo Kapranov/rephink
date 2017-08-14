@@ -1,5 +1,5 @@
 defmodule Rephink.Repo do
-  use Ecto.Repo, otp_app: :rephink
+  use Ecto.Repo, otp_app: :rephink, adapter: Application.get_env(:rephink, :ecto_adapter)
 
   @doc """
   Dynamically loads the repository url from the

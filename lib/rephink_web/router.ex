@@ -19,8 +19,8 @@ defmodule RephinkWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", RephinkWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RephinkWeb do
+    pipe_through :api
+    resources "/posts", PostController, only: [:index]
+  end
 end
