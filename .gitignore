@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+/npm_modules
 
 erl_crash.dump
 
