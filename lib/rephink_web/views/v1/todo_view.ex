@@ -1,6 +1,6 @@
 defmodule RephinkWeb.V1.TodoView do
   use RephinkWeb, :view
-  alias RephinkWeb.TodoView
+  alias RephinkWeb.V1.TodoView
 
   def render("index.json", %{todos: todos}) do
     %{data: render_many(todos, TodoView, "todo.json")}

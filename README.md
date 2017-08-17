@@ -42,8 +42,18 @@ v1_todo_path  PATCH   /v1/todos/:id       RephinkWeb.V1.TodoController :update
 v1_todo_path  DELETE  /v1/todos/:id       RephinkWeb.V1.TodoController :delete
 
 # fix todo_path on v1_todo_path: test/rephink_web/controllers/v1/todo_controller_test.exs
+# fix alias RephinkWeb.TodoView: lib/rephink_web/views/v1/todo_view.ex
+alias RephinkWeb.V1.TodoView
+
 
 mix test
+
+.................
+
+Finished in 0.3 seconds
+17 tests, 0 failures
+
+Randomized with seed 928443
 ```
 
 
