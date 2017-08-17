@@ -402,6 +402,8 @@ rm -fr priv/static/*
 mix deps.get
 npm install
 
+mix phx.digest
+
 mix phx.server
 
 # check out brouser url
