@@ -1,6 +1,32 @@
 # Phoenix REST APIs ToDo Application
 
 ```
+mix phx.new rephink --no-brunch
+
+# add sqlite_ecto2
+defp deps do
+  [
+    {:phoenix, "~> 1.3.0"},
+    {:phoenix_pubsub, "~> 1.0"},
+    {:phoenix_ecto, "~> 3.2"},
+    {:postgrex, ">= 0.0.0"},
+    {:phoenix_html, "~> 2.10"},
+    {:phoenix_live_reload, "~> 1.0", only: :dev},
+    {:gettext, "~> 0.11"},
+    {:cowboy, "~> 1.0"},
+    {:sqlite_ecto2, "~> 2.0"},
+    {:faker, "~> 0.8", only: [:dev, :test]}
+  ]
+end
+
+# edit config/config.exs, config/dev.exs, config/prod.exs, config/, prod.secret.exs, config/test.exs
+
+# edit lib/rephink/repo.ex
+defmodule Rephink.Repo do
+  use Ecto.Repo, otp_app: :rephink, adapter: Application.get_env(:rephink, :ecto_adapter)
+  ...
+end
+
 mix phx.gen.json Todos Todo todos title:string completed:boolean
 
 mkdir lib/rephink_web/controllers/v1
