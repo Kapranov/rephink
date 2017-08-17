@@ -1,0 +1,10 @@
+/_build
+/db
+/deps
+/*.ez
+/priv/static/*
+erl_crash.dump
+
+node_modules/*
+
+# /config/*.secret.exs
