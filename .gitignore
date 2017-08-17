@@ -2,7 +2,9 @@
 /db
 /deps
 /*.ez
-/npm_modules/*
 /priv/static/*
 erl_crash.dump
+
+node_modules/*
+
 # /config/*.secret.exs
