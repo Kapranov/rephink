@@ -17,10 +17,8 @@ defmodule RephinkWeb.ChannelCase do
 
   using do
     quote do
-      # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      # The default endpoint for testing
       @endpoint RephinkWeb.Endpoint
     end
   end

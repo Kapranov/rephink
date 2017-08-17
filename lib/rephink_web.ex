@@ -31,10 +31,8 @@ defmodule RephinkWeb do
       use Phoenix.View, root: "lib/rephink_web/templates",
                         namespace: RephinkWeb
 
-      # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
-      # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
       import RephinkWeb.Router.Helpers

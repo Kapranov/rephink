@@ -17,11 +17,9 @@ defmodule RephinkWeb.ConnCase do
 
   using do
     quote do
-      # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import RephinkWeb.Router.Helpers
 
-      # The default endpoint for testing
       @endpoint RephinkWeb.Endpoint
     end
   end
