@@ -1,10 +1,8 @@
-# App artifacts
 /_build
 /db
 /deps
 /*.ez
 /npm_modules/*
-
+/priv/static/*
 erl_crash.dump
-
-/config/*.secret.exs
+# /config/*.secret.exs

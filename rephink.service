@@ -1,0 +1,19 @@
+# Rephink is a Phoenix, Webpack and Distillery demo application
+
+[Unit]
+Description=Rephink application
+After=network.target
+
+[Service]
+Type=simple
+User=rephink
+RemainAfterExit=yes
+Environment=PORT=8080
+WorkingDirectory=/opt/rephink
+ExecStart=/opt/userlist/bin/rephink start
+ExecStop=/opt/userlist/bin/rephink stop
+Restart=on-failure
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

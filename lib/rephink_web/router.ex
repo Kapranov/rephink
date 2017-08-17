@@ -14,13 +14,14 @@ defmodule RephinkWeb.Router do
   end
 
   scope "/", RephinkWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
   end
 
   scope "/api", RephinkWeb do
     pipe_through :api
+
     resources "/posts", PostController, only: [:index]
   end
 end

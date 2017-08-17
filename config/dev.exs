@@ -5,7 +5,7 @@ config :rephink, RephinkWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [npm: ["run", "watch"]]
 
 config :rephink, RephinkWeb.Endpoint,
   live_reload: [
@@ -21,7 +21,6 @@ config :logger, :console, format: "[$level] $message\n"
 
 config :phoenix, :stacktrace_depth, 20
 
-# Configure your database
 config :rephink, Rephink.Repo,
   adapter: Sqlite.Ecto2,
   database: "rephink.sqlite3"

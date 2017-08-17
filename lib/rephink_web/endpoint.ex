@@ -9,7 +9,7 @@ defmodule RephinkWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/", from: :rephink, gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images js favicon.ico robots.txt cache_manifest.json)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -36,7 +36,7 @@ defmodule RephinkWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_rephink_key",
-    signing_salt: "zyJToeF8"
+    signing_salt: "/QmPwhKl"
 
   plug RephinkWeb.Router
 
