@@ -1,9 +1,9 @@
-# Phoenix REST APIs
+# Phoenix REST APIs ToDo Application
 
 ```
 mix phx.gen.json Todos Todo todos title:string completed:boolean
 
-mkdir lib/rephink_web/controllers/v1 
+mkdir lib/rephink_web/controllers/v1
 mv lib/rephink_web/controllers/todo_controller.ex lib/rephink_web/controllers/v1/
 
 mkdir lib/rephink_web/views/v1
@@ -54,26 +54,28 @@ Finished in 0.3 seconds
 17 tests, 0 failures
 
 Randomized with seed 928443
+
+# run migration
+mix ecto.migrate
+
+# run application
+mix phx.server
+
+# create first todo
+curl -H "Content-Type: application/json" -X POST -d '{"todo":{"title":"Buy a Wii U","completed":true}}' http://localhost:4000/v1/todos
+#=> {"data":{"title":"Buy a Wii U","id":1,"completed":true}}
+
+# create second todo
+curl -H "Content-Type: application/json" -X POST -d '{"todo":{"title":"Get A+","completed":false}}' http://localhost:4000/v1/todos
+#=> {"data":{"title":"Get A+","id":2,"completed":false}}
+
+# get all todos
+curl -H "Content-Type: application/json" http://localhost:4000/v1/todos
+#=> {"data":[{"title":"Buy a Wii U","id":1,"completed":true},{"title":"Get A+","id":2,"completed":false}]}
+
+# get #2 todo
+curl -H "Content-Type: application/json" http://localhost:4000/v1/todos/2
+#=> {"data":{"title":"Get A+","id":2,"completed":false}}
 ```
-
-
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
 
 ### 2017 August Oleg G.Kapranov
