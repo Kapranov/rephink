@@ -13,3 +13,4 @@ test/rephink_test.sqlite3-shm
 test/rephink_test.sqlite3-wal
 
 # /config/*.secret.exs
+# .env

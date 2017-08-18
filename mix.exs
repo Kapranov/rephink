@@ -34,7 +34,7 @@ defmodule Rephink.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:sqlite_ecto2, "~> 2.0"},
-      {:faker, "~> 0.8", only: [:dev, :test]}
+      {:faker, "~> 0.8", only: [:dev, :test]},
     ]
   end
 

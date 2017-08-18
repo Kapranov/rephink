@@ -5,7 +5,7 @@ config :rephink,
 
 config :rephink, Rephink.Repo,
   adapter: Sqlite.Ecto2,
-  database: "rephink.sqlite3"
+  database: System.get_env("DB_DEV")
 
 config :rephink, RephinkWeb.Endpoint,
   url: [host: "localhost"],
