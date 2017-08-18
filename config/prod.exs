@@ -13,6 +13,7 @@ config :rephink, RephinkWeb.Endpoint,
   url: [host: "localhost", port: {:system, "PORT"}],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
-  root: "."
+  root: ".",
+  version: Mix.Project.config[:version]
 
 import_config "prod.secret.exs"
