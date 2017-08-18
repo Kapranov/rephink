@@ -38,4 +38,21 @@ versioned APIs. The most common are:
 * Use of the ``Accept`` header (e.g. ``Accept: application/vnd.app.v1+json``
 * Embed the version as part of the URL (e.g.  ``http://api.app.tld/v1/user``)
 
+```bash
+curl -H "Content-Type: application/json" http://localhost:4000/v1/todos
+curl -H "Content-Type: application/json" http://localhost:4000/v2/todos
+curl -H "Content-Type: application/json" http://localhost:4000/v3/todos
+
+curl -H "Content-Type: application/json" http://localhost:4000/v1/todos/1
+curl -H "Content-Type: application/json" http://localhost:4000/v2/todos/1
+curl -H "Content-Type: application/json" http://localhost:4000/v3/todos/1
+
+curl -H "Content-Type: application/json" -X POST -d '{"todo":{"title":"dats da bad guy","completed":false}}' http://localhost:4000/v1/todos
+curl -H "Content-Type: application/json" -X POST -d '{"todo":{"title":"Mark I must be psychic","completed":true}}'  http://localhost:4000/v2/todos
+curl -H "Content-Type: application/json" -X POST -d '{"todo":{"title":"Al Sharpen got his start on a lie","completed":false}}' http://localhost:4000/v3/todos
+
+
+
+```
+
 ### 2017 August Oleg G.Kapranov
