@@ -1,4 +1,4 @@
-# Rephink - Phoenix JWT REST APIs Authentication ToDo App
+# Rephink - Phoenix JWT REST APIs Authentication Application
 
 
 ### 2017 August Oleg G.Kapranov
