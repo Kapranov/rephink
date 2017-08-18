@@ -1,11 +1,13 @@
 use Mix.Config
 
 config :rephink, RephinkWeb.Endpoint,
-  http: [port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: System.get_env("PORT") || 4000],
+  url: [host: System.get_env("HOSTNAME"), port: {:system, "PORT"}],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [],
+  server: true
 
 config :rephink, RephinkWeb.Endpoint,
   live_reload: [

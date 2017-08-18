@@ -8,7 +8,8 @@ config :rephink, Rephink.Repo,
   database: System.get_env("DB_DEV")
 
 config :rephink, RephinkWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("HOSTNAME"), port: {:system, "PORT"}],
+  http: [port: System.get_env("PORT") || 4000],
   secret_key_base: "XjgCiB07DuEDnYHU0DAT9sosvlX4m7RqcBMuoNB5ykS/ycxj6B6z7+PlPWg3rBww",
   render_errors: [view: RephinkWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Rephink.PubSub,
