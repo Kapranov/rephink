@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :rephink, RephinkWeb.Endpoint,
-  secret_key_base: "GwzWOyetVwDLhN4LHBVfV6eaLmq2N9wbXIBBsTb3JJ+YX913hEelFyawJRAy2YON"
+  secret_key_base: System.get_env("SECRET_KEY_BASE_PROD")
 
 # Configure your database
 config :rephink, Rephink.Repo,
