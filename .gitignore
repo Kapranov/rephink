@@ -1,0 +1,15 @@
+/_build
+/db
+/deps
+/*.ez
+/priv/static/*
+erl_crash.dump
+
+node_modules/*
+
+rephink.sqlite3-shm
+rephink.sqlite3-wal
+test/rephink_test.sqlite3-shm
+test/rephink_test.sqlite3-wal
+
+# /config/*.secret.exs
