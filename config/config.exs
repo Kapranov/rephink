@@ -10,7 +10,7 @@ config :rephink, Rephink.Repo,
 config :rephink, RephinkWeb.Endpoint,
   url: [host: System.get_env("HOSTNAME"), port: {:system, "PORT"}],
   http: [port: System.get_env("PORT") || 4000],
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: RephinkWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Rephink.PubSub,
            adapter: Phoenix.PubSub.PG2]
