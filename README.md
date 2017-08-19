@@ -12,7 +12,9 @@ mix deps.get
 source .env
 
 mix ecto.create
+# mix phx.gen.json Todos Todo todos title:string completed:boolean
 mix ecto.migrate
+
 
 mix run priv/repo/seeds.exs
 
