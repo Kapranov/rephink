@@ -38,6 +38,9 @@ versioned APIs. The most common are:
 
 * Use of the ``Accept`` header (e.g. ``Accept: application/vnd.app.v1+json``
 * Embed the version as part of the URL (e.g.  ``http://api.app.tld/v1/user``)
+* Request parameter
+
+> Phoenix API versioning: Accept Header
 
 ```bash
 curl -H "Content-Type: application/json" http://localhost:4000/v1/todos

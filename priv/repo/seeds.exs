@@ -1,11 +1,15 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Rephink.Repo.insert!(%Rephink.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias Rephink.Repo
+alias Rephink.Todos.Todo
+alias FakerElixir, as: Faker
+
+Faker.set_locale(:en)
+
+completed_faker = Faker.Boolean.boolean(0.1)
+title_faker = Faker.Lorem.words(2..4)
+
+for _ <- 1..15 do
+  Repo.insert!(%Todo{
+    title:  Faker.Lorem.words(2..4),
+    completed: Faker.Boolean.boolean(0.1)
+  })
+end
