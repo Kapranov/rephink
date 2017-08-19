@@ -12,6 +12,17 @@ rm lib/rephink_web/views/changeset_view.ex
 rm test/support/channel_case.ex
 
 mix phx.gen.json Todos Todo todos title:string completed:boolean
-```
 
+
+curl -H "Content-Type: application/json" http://localhost:4000/v1/todos/1
+#=> {"title":"MY Task #1","id":1,"completed":true}
+
+curl -H "Content-Type: application/json" http://localhost:4000/v2/todos/1
+#=> {"titles":["MY Task #2","Hello, Welcome!"],"id":1,"completed":true}
+
+curl -H "Content-Type: application/json" http://localhost:4000/v3/todos/1
+#=> {"title":["MY Task #3","How are your there!"],"id":1,"completed":true}
+
+mix test
+```
 ### 2017 August Oleg G.Kapranov

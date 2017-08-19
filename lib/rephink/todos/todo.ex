@@ -1,20 +1,16 @@
 defmodule Rephink.Todos.Todo do
-  use Ecto.Schema
-  import Ecto.Changeset
-  alias Rephink.Todos.Todo
 
+  defstruct id: nil, titles: nil, completed: nil
 
-  schema "todos" do
-    field :completed, :boolean, default: false
-    field :title, :string
+  def build(:v1), do: _build(["MY Task #1"])
+  def build(:v2), do: _build(["MY Task #2", "Hello, Welcome!"])
+  def build(:v3), do: _build(["MY Task #3", "How are your there!"])
 
-    timestamps()
-  end
-
-  @doc false
-  def changeset(%Todo{} = todo, attrs) do
-    todo
-    |> cast(attrs, [:title, :completed])
-    |> validate_required([:title, :completed])
+  defp _build(titles) do
+    %__MODULE__{
+      id: 1,
+      completed: true,
+      titles: titles
+    }
   end
 end
