@@ -1,5 +1,24 @@
 # Rephink - Phoenix JWT REST APIs Authentication App
 
+> Start Up
+
+```
+mix deps.get
+mix deps.clean --all
+mix deps.get
+mix deps.update --all
+mix deps.get
+
+source .env
+
+mix ecto.create
+mix ecto.migrate
+
+mix run priv/repo/seeds.exs
+
+mix test
+```
+
 > Software Versions
 
 ```
