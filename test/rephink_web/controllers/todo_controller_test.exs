@@ -1,81 +1,44 @@
 defmodule RephinkWeb.TodoControllerTest do
   use RephinkWeb.ConnCase
 
-  alias Rephink.Todos
   alias Rephink.Todos.Todo
 
-  @create_attrs %{completed: true, title: "some title"}
-  @update_attrs %{completed: false, title: "some updated title"}
-  @invalid_attrs %{completed: nil, title: nil}
-
-  def fixture(:todo) do
-    {:ok, todo} = Todos.create_todo(@create_attrs)
-    todo
+  setup %{conn: conn}=config do
+    conn = put_req_header(conn, "accept", config.accept_header)
+    {:ok, conn: conn}
   end
 
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  @tag accept_header: "application/vnd.app.v1+json"
+  test "GET /todos/1 with Accept: application/vnd.app.v1+json", %{conn: conn} do
+    todo = Todo.build(:v1)
+    conn = get(conn, "/todos/1")
+    response = json_response(conn, 200)
+
+    assert response["id"] == todo.id
+    assert response["completed"] == todo.completed
+    #assert response["title"] == Enum.at(todo.titles, 0)
+    assert response["titles"] == todo.titles
   end
 
-  describe "index" do
-    test "lists all todos", %{conn: conn} do
-      conn = get conn, todo_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
+  #@tag accept_header: "application/vnd.app.v2+json"
+  #test "GET /todos/1 with Accept: application/vnd.app.v2+json", %{conn: conn} do
+  #  toso = Todo.build(:v2)
+  #  conn = get(conn, "/todos/1")
+  #  response = json_response(conn, 200)
 
-  describe "create todo" do
-    test "renders todo when data is valid", %{conn: conn} do
-      conn = post conn, todo_path(conn, :create), todo: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+  #  assert response["id"] == todo.id
+  #  assert response["completed"] == todo.completed
+  #  assert response["titles"] == todo.titles
+  #end
 
-      conn = get conn, todo_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "completed" => true,
-        "title" => "some title"}
-    end
+  #@tag accept_header: "application/vnd.app.v3+json"
+  #test "GET /todos/1 with Accept: application/vnd.app.v3+json", %{conn: conn} do
+  #  todo = Todo.build(:v3)
+  #  conn = get(conn, "/todos/1")
+  #  response = json_response(conn, 200)
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, todo_path(conn, :create), todo: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "update todo" do
-    setup [:create_todo]
-
-    test "renders todo when data is valid", %{conn: conn, todo: %Todo{id: id} = todo} do
-      conn = put conn, todo_path(conn, :update, todo), todo: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get conn, todo_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "completed" => false,
-        "title" => "some updated title"}
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, todo: todo} do
-      conn = put conn, todo_path(conn, :update, todo), todo: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "delete todo" do
-    setup [:create_todo]
-
-    test "deletes chosen todo", %{conn: conn, todo: todo} do
-      conn = delete conn, todo_path(conn, :delete, todo)
-      assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, todo_path(conn, :show, todo)
-      end
-    end
-  end
-
-  defp create_todo(_) do
-    todo = fixture(:todo)
-    {:ok, todo: todo}
-  end
+  #  assert response["id"] == todo.id
+  #  assert response["completed"] == todo.completed
+  #  assert response["title"] == Enum.at(todo.titles, 0)
+  #end
 end

@@ -11,4 +11,15 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :plug, :mime, %{
+  "application/vnd.app.v1+json" => [:v1],
+  "application/vnd.app.v2+json" => [:v2],
+  "application/vnd.app.v3+json" => [:v3]
+}
+
+#config :plug, :mimes, %{
+#  "application/vnd.app.v1+json" => [:v1],
+#  "application/vnd.app.v2+json" => [:v2]
+#}
+
 import_config "#{Mix.env}.exs"
