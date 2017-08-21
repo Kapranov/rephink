@@ -14,6 +14,14 @@ rm test/support/channel_case.ex
 mix phx.gen.json Todos Todo todos title:string completed:boolean
 
 mix test
+
+curl http://localhost:4000/todos/1?version=v1
+curl http://localhost:4000/todos/1?version=v2
+curl http://localhost:4000/todos/1?version=v3
+
+curl http://localhost:4000/todos/2?version=v1
+curl http://localhost:4000/todos/2?version=v2
+curl http://localhost:4000/todos/2?version=v3
 ```
 
 ### 2017 August Oleg G.Kapranov
