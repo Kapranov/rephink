@@ -21,8 +21,7 @@ defmodule RephinkWeb.TodoView do
     %{
       id: todo.id,
       completed: todo.completed,
-      titles: todo.titles
+      title: Enum.at(todo.titles, 0)
     }
   end
-
 end

@@ -3,7 +3,7 @@ defmodule Rephink.Todos.Todo do
 
   def build(:v1), do: _build(["MY Task #1"])
   def build(:v2), do: _build(["MY Task #2", "Hello, Welcome!"])
-  def build(:v3), do: _build(["MY Task #3", "How are your there!"])
+  def build(:v3), do: _build(["Elixir", "Phoenix Framework"])
 
   defp _build(titles) do
     %__MODULE__{

@@ -1,6 +1,5 @@
 defmodule RephinkWeb.TodoController do
   use RephinkWeb, :controller
-
   alias Rephink.Todos.Todo
 
   def show(%{assigns: %{version: :v1}}=conn, _params) do

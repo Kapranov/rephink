@@ -1,6 +1,6 @@
 defmodule RephinkWeb.Version do
   import Plug.Conn
-  @versions Application.get_env(:plug, :mime)
+  @versions Application.get_env(:plug, :mimes)
 
   def init(opts), do: opts
 
