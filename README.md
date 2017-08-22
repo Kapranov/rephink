@@ -39,8 +39,8 @@ documented][4].
 There are two types of ``Plug``'s we can have: Function plugs and module
 plugs.
 
-A **function plug** is any function that receives a ``connection`` (that
-is a ``%Plug.Conn{}``) and a set of options, and returns a ``connection``
+A **function plug** is any function that receives a `connection` (that
+is a `%Plug.Conn{}`) and a set of options, and returns a `connection`
 Here is a simple example of a valid `Plug`: 
 
 ```
