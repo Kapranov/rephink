@@ -1,9 +1,20 @@
-> Plug in Elixir
+> Plug in Elixir - Is it an abstraction layer between the two
 
 In the `Elixir` world, `Plug` is the specification that enables different
 frameworks to talk to different web servers in the `Erlang` VM.
 If you are  familiar with `Ruby`, `Plug` tries to solve the same problem
 that `Rack` does, just with a different approach.
+
+Yes, exactly! Plug is meant to be a generic adapter for different web
+servers. Currently we support just Cowboy but there is work to support
+others.
+
+Plug also defines how different components should be plugged together.
+Similar to Rack in Ruby, WSGI in Python, Ring in Clojure, and so on.
+
+*Plug is both. It is the component that sits between and it also defines
+a specification. Plugs are not stacked, it works more like a pipeline
+where a plug hands off the connection to the next plug* - José Valim.
 
 Understanding the basics of how `Plug` works will make it easier to get up
 to speed with `Phoenix`,  and probably any other web framework that is
