@@ -20,4 +20,21 @@ defmodule Rephink do
   def call(%Plug.Conn{request_path: "/" <> name} = conn, opts) do
     send_resp(conn, 200, "Hello, #{name}")
   end
+
+  @moduledoc """
+  Documentation for Rephink
+  """
+
+  @doc """
+  Hello world.
+
+  ## Examples
+
+      iex> Rephink.hello
+      :world
+
+  """
+  def hello do
+    :world
+  end
 end

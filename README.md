@@ -1,5 +1,8 @@
 > Plug in Elixir - Is it an abstraction layer between the two
 
+Per [the Plug GitHub page][6] a plug is a "specification for composable
+modules between web applications.".
+
 In the `Elixir` world, `Plug` is the specification that enables different
 frameworks to talk to different web servers in the `Erlang` VM.
 If you are  familiar with `Ruby`, `Plug` tries to solve the same problem
@@ -81,6 +84,28 @@ executed in compile time, while `call/2` happens at run time.
 The value returned by `init/1` will be passed to `call/2`, making
 `init/1` the perfect place to do any heavy lifting and let `call/2`
 run as fast as possible at run time.
+
+There are two main uses I can think of when you would want a function
+plug:
+
+1. You want a plug that is local to a file (controller, router,
+   endpoint, etc.) A module plug is preferred if you want it to be
+   available from multiple files.
+2. You are writing a library that allows you to use the function plug in
+   the module (Phoenix does this for `put_layout` and `scrub_params`)
+
+Most of the time, my plugs start as functions while I am developing
+them, then I move them out to their own modules.
+
+The module plug has the benefit of being able to perform some login in
+the `init/1` function that will later be passed to the `call/2`
+function.
+
+`init/1` may be called during compilation which means it may gives you
+performance boost since most plugs need configurations before it
+actually do its job. With a function plug, those configurations have to
+be done in runtime, so module plug is more appropriate for this
+scenario.
 
 **A simple example**
 
