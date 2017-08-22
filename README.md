@@ -36,8 +36,8 @@ documented][4].
 
 **The two types of Plugs**
 
-There are two types of `Plug`'s we can have: **Function plugs** and
-**Module plugs**.
+There are two types of `Plug`'s we can have: `Function plugs` and
+`Module plugs`.
 
 A **function plug** is any function that receives a `connection` (that
 is a `%Plug.Conn{}`) and a set of options, and returns a `connection`
