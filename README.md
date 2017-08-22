@@ -1,7 +1,7 @@
 > Plug in Elixir - Is it an abstraction layer between the two
 
 Per [the Plug GitHub page][6] a plug is a "specification for composable
-modules between web applications.".
+modules between web applications".
 
 In the `Elixir` world, `Plug` is the specification that enables different
 frameworks to talk to different web servers in the `Erlang` VM.
@@ -285,3 +285,7 @@ in this case the data happens to be an http request.
 [3]: http://elixir-lang.org/getting-started/structs.html
 [4]: https://hexdocs.pm/plug/Plug.Conn.html
 [5]: https://hexdocs.pm/plug/readme.html
+[6]: https://github.com/elixir-lang/plug
+[7]: https://robots.thoughtbot.com/testing-elixir-plugs
+[8]: http://ricostacruz.com/cheatsheets/phoenix-conn.html
+[9]: https://elixirschool.com/en/lessons/specifics/plug/
