@@ -34,6 +34,9 @@ documented][4].
 
 **The two types of Plugs**
 
+Inline math equations go in like so: $\omega = d\phi / dt$. Display
+math should get its own line and be put in in double-dollarsigns:
+
 $$I = \int \rho R^{2} dV$$
 
 ### 2017 August Oleg G.Kapranov
