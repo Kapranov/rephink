@@ -3,6 +3,9 @@
 Per [the Plug GitHub page][6] a plug is a "specification for composable
 modules between web applications".
 
+*Plug allows you define modules which act as an interfaces between
+different web applications hence allowing them to communicate*.
+
 In the `Elixir` world, `Plug` is the specification that enables different
 frameworks to talk to different web servers in the `Erlang` VM.
 If you are  familiar with `Ruby`, `Plug` tries to solve the same problem
