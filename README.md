@@ -39,7 +39,7 @@ math should get its own line and be put in in double-dollarsigns:
 
 $$I = \int \rho R^{2} dV$$
 
-### 2017 August Oleg G.Kapranov
+### (c) 2017 August Oleg G.Kapranov
 
 [1]: http://www.brianstorti.com/getting-started-with-plug-elixir/
 [2]: https://habrahabr.ru/post/306334/
