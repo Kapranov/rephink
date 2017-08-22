@@ -28,12 +28,8 @@ a simple [Elixir struct][3], called ``%Plug.Conn{}`` which is [very well
 documented][4].
 
 ***
-
 ![schema plug](plug.png "An exemplary image")
-
 ***
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 **The two types of Plugs**
