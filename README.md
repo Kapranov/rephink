@@ -34,6 +34,7 @@ documented][4].
 
 **The two types of Plugs**
 
+$$I = \int \rho R^{2} dV$$
 
 ### 2017 August Oleg G.Kapranov
 
