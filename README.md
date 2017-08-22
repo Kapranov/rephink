@@ -36,6 +36,19 @@ documented][4].
 
 **The two types of Plugs**
 
+There are two types of ``Plug``'s we can have: Function plugs and module
+plugs.
+
+A **function plug** is any function that receives a ``connection`` (that
+is a ``%Plug.Conn{}``) and a set of options, and returns a ``connection``
+Here is a simple example of a valid `Plug`: 
+
+```
+def my_plug(conn, opts) do
+  conn
+end
+```
+
 
 ### (c) 2017 August Oleg G.Kapranov
 
