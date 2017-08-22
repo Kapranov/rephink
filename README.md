@@ -148,9 +148,104 @@ to the web server.
 
 **Pipelines, because one ant is no ant**
 
+`Plug` gets more interesting when you start composing multiple plugs
+together, each one doing a small task and handing a modified
+`connection` to the next.
+`Phoenix`, the web framework, uses these pipelines in a clever way. By
+default, if we are handling a normal browser request, we have a pipeline
+like this `lib/rephink_web/router.ex`:
+
+```
+pipeline :browser do
+  plug :accepts, ["html"]
+  plug :fetch_session
+  plug :fetch_flash
+  plug :protect_from_forgery
+  plug :put_secure_browser_headers
+end
+```
+
+In case we are handling an api request, we don’t need most of these
+things, so we can have a simpler pipeline just for our api:
+
+```
+pipeline :api do
+  plug :accepts, ["json"]
+end
+```
+
+Now, this is a `Phoenix` abstraction, but `Plug` gives us an easy way to
+build our own pipelines: `Plug.Builder`.
+
+Here’s an example of how it works:
+
+```
+defmodule MyPipeline do
+  # We use Plug.Builder to have access to the plug/2 macro.
+  # This macro can receive a function or a module plug and an
+  # optional parameter that will be passed unchanged to the
+  # given plug.
+  use Plug.Builder
+
+  plug Plug.Logger
+  plug :extract_name
+  plug :greet, %{my_option: "Hello"}
+
+  def extract_name(%Plug.Conn{request_path: "/" <> name} = conn, opts) do
+    assign(conn, :name, name)
+  end
+
+  def greet(conn, opts) do
+    conn
+    |> send_resp(200, "#{opts[:my_option]}, #{conn.assigns.name}")
+  end
+end
+```
+
+Here we combined three plugs, `Plug.Logger`, `extract_name` and `greet`.
+The `extract_name` uses `assign/3` to assign a value to a key in this
+connection. `assign/3` returns a modified `connection`, that is then
+handed to the `greet` plug, that basically reads this assigned value to
+create the response we want.
+
+`Plug.Logger` is shipped with `Plug` and, as you probably guessed, is
+used to log our http requests. A bunch of useful plugs like this are
+available out of the box, you can find the list and descriptions in the
+[docs][5]("Available Plugs" section).
+
+Using this pipeline is as simple as using a single plug:
+
+```
+Plug.Adapters.Cowboy.http MyPipeline, %{}
+```
+
+One important thing to keep in mind is that the plugs will always be
+executed in the order they are defined in the pipeline.
+
+Another interesting thing is that these pipelines created with
+`Plug.Builder` are also plugs, so we can have pipelines that are
+composed by other pipelines.
+
+
+The main idea is that we have our request represented as a
+`%Plug.Conn{}`, and this struct is passed from function to function,
+being slightly modified in each step, until we have a response that can
+be sent back. `Plug` is a specification that defines how this should
+work and creates an abstractions so multiple frameworks can talk to
+multiple web server, as long as they are respecting the specification.
+
+It also ships with these convenience modules that make it easier to do a
+lot of things that are common to most applications, like creating
+pipelines, simple routers, dealing with cookies, headers, etc.
+
+In the end of the day, it’s just that simple functional programming idea
+of passing data through functions until we get the result we want, and
+in this case the data happens to be an http request.
+
 ### 2017 August Oleg G.Kapranov
 
 [1]: http://www.brianstorti.com/getting-started-with-plug-elixir/
 [2]: https://habrahabr.ru/post/306334/
 [3]: http://elixir-lang.org/getting-started/structs.html
 [4]: https://hexdocs.pm/plug/Plug.Conn.html
+[5]: https://hexdocs.pm/plug/readme.html
