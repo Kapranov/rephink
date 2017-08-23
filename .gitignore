@@ -1,0 +1,10 @@
+/_build
+/db
+/deps
+/*.ez
+
+erl_crash.dump
+
+mix.lock
+
+# /config/*.secret.exs
