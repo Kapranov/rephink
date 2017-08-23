@@ -50,7 +50,6 @@ documented][4].
 
 ***
 
-
 **The two types of Plugs**
 
 There are two types of `Plug`'s we can have: `Function plugs` and
@@ -166,6 +165,115 @@ need to pass an `options` value that will be used by `init/1`.
 This should have started a `Cowboy` web server on port 4000, so if you
 open `http://localhost:4000` you should see the "Hello, World!" message.
 
+After importing the `Plug.Conn` module, we defined two functions:
+`init/1` and `call/2`. **These are the only two functions needed to make
+a module plug**.
+
+Looking deeper into the `call/2` function, we can see that it also calls
+two plugs. This is the beauty of plugs: as they are just pure functions
+that manipulate a connection, they are, consequently, composable. This
+means that any plug is likely to call several other plugs to do its
+work. Remember: plugs are just functions that accept and return a
+connection.
+
+Let’s spin up a server to test out our plug: `$ iex -S mix`.
+
+```
+iex> {:ok, _pid} = Plug.Adapters.Cowboy.http(Rephink, [])
+$ curl http://localhost:4000/
+```
+
+So we just tested our plug with `curl` and it worked great! Let’s take
+this a step further and return some JSON.
+
+*Add JSON parser to the application*.
+
+We are going to use `Poison` as our JSON encoder. Let’s add it to our
+application to `mix.exs`. Now that Poison is added, we need to change
+the response type to `application/json` and then encode a Map to JSON.
+It’s as simple as changing 3 lines of code:
+
+```
+# lib.rephink.ex
+defmodule Rephink do
+...
+  def call(conn, _opts) do
+    # encode to JSON
+    body = %{body: "Hello, world!"} |> Poison.encode!
+
+    conn
+    |> put_resp_content_type("application/json") # JSON type
+    |> send_resp(200, body) # send it!
+  end
+end
+```
+
+Let’s test this again with `curl`: `curl http://localhost:4000/` and
+will see `{"body": "Hello, world!"}`.
+
+It worked! Now that we have the fundamentals of plugs down, let’s create
+Rephink's main functionality: listing cookies. Not the most glamorous
+function, but a useful one nonetheless. Let’s make a plan on how to
+implement this:
+
+1. Get cookies from response
+2. Encode cookies to JSON
+3. Set a new cookie for demonstration purposes
+
+Now that we have a plan, it should be simple to execute step-by-step.
+Let’s dive in to the first step: *Get cookies from response*. It sounds
+simple, but how exactly should we implement it? Luckily Elixir packages
+are (mostly) beautifully documented, so we can [easily find the right
+function][4]. With a quick search of “cookie”, a list of options pops
+up. Which one? It looks like the `fetch_cookies/2` function/plug is
+exactly what we’re looking for. So let’s add this to our app by
+redefining what gets passed to our main plug:
+
+```
+body = conn |> fetch_cookies |> Map.get(:cookies) |> Poison.encode!
+```
+
+This line simply pipes the connection into the `fetch_cookies` plug,
+which then loads the cookies. These cookies, along with the connection,
+are fetched through the `Map.get/2` function, and then encoded to JSON.
+That’s it! We just completed 2/3 of the steps, but we still have one
+more: *Set a new cookie for demonstration purposes*.
+
+For our example, we’re going to make a simple cookie that assigns the
+current date (in string form) to a cookie with the key `hello`. If we
+look back at our [Plug docs][4] and search, we can see that
+`put_resp_cookie/4` is perfect for this. To add our cookie, we simply
+put this plug right after the initial call of `conn` in our `call/2`
+function. Let’s take a look at the finished product:
+
+```
+# lib/rephink.ex
+defmodule Rethink do
+  import Plug.Conn
+
+  def init(options), do: options
+
+  def call(conn, _opts) do
+    body = conn |> fetch_cookies |> Map.get(:cookies) |> Poison.encode!
+
+    conn
+    |> put_resp_cookie("hello", DateTime.utc_now |> DateTime.to_string)
+    |> put_resp_content_type("application/json") # another plug
+    |> send_resp(200, body)
+  end
+end
+```
+
+Now we should restart the server and open up `http://localhost:4000/`,
+but this time in the browser. On first load you may see a blank page.
+This is good! It means you have no cookies stored on your browser. Now
+if you reload the page, you will see that our plug assigned a new cookie
+with the current time (the time when the cookie was assigned).
+
+*Why don’t I see my cookie on first reload?*, Because of the way that
+our plug is setup, we only see the cookie after a reload because `body`
+ is assigned before the cookie is set.
+
 This was simple enough. Let’s just try to make this `plug` a bit smarter
 and return a response based on the URL we hit, so if we access:
 `http://localhost:4000/Name`, we should see “Hello, Name”.
@@ -280,6 +388,13 @@ pipelines, simple routers, dealing with cookies, headers, etc.
 In the end of the day, it’s just that simple functional programming idea
 of passing data through functions until we get the result we want, and
 in this case the data happens to be an http request.
+
+What we just created only shows a minuscule amount of plug’s full
+potential. Plugs make up the basis of Phoenix in the same way Rack makes
+up the basis of Rails. With plugs you can make anything, from simple
+HTTP services to robust APIs. Combine that with the rapidly growing
+Elixir community and the pure speed and failsafe nature of Erlang, and
+you’re on your way to developer paradise.
 
 ### 2017 August Oleg G.Kapranov
 

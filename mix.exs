@@ -22,7 +22,8 @@ defmodule Rephink.Mixfile do
   defp deps do
     [
       {:plug, "~> 1.4"},
-      {:cowboy, "~> 1.1"}
+      {:cowboy, "~> 1.1"},
+      {:poison, "~> 3.1"}
     ]
   end
 end
