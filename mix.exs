@@ -35,7 +35,6 @@ defmodule Rephink.Mixfile do
       {:faker, "~> 0.8", only: [:dev, :test]},
       {:poison, "~> 2.2"}
     ]
-
   end
 
   defp aliases do
