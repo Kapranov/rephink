@@ -48,8 +48,9 @@ end
 
 Next, we'll run `mix deps.get` to get those dependencies.
 
-It's time to create an integration test. Create a `test/integration`
-directory and a file named `listing_movies_test.exs` inside it.
+It's time to create an integration test. Create a
+`test/rephink_web/controllers` directory and a file named
+`listing_movies_test.exs` inside it.
 
 Listing movies requires a get request for a movies resource. We need a
 HTTP GET request to a "/movies" URI to return some content and a 200
@@ -69,17 +70,13 @@ end
 Here's how this will work: we'll add this test and run it. After running
 the test, we will make changes every time it fails until we've added
 just enough code to make it pass. We'll use:
-`mix test test/integration/listing_movies_test.exs` to run the test. The
+`mix test test/rephink_web/controllers/listing_movies_test.exs` to run the test. The
 test returns the following error message:
 
-```
-** (CompileError) test/integration/listing_movies_test.exs:5: undefined function conn/2
-```
-
-We need `Plug`. Let's add it to `test/integration/listing_movies_test.exs`:
+We need `Plug`. Let's add it to `test/rephink_web/controllers/listing_movies_test.exs`:
 
 ```
-defmodule ListingMoviesIntegrationTest do
+defmodule ListingMoviesTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
@@ -90,35 +87,13 @@ defmodule ListingMoviesIntegrationTest do
 end
 ```
 
-When we run it again, we'll get the following output:
-
-```
-1) test listing movies (ListingMoviesIntegrationTest)
-   test/integration/listing_movies_test.exs:5
-   ** (FunctionClauseError) no function clause matching in URI.parse/1
-
-   The following arguments were given to URI.parse/1:
-
-      # 1
-      '/movies'
-
-   code: response = conn(:get, '/movies')
-   ...
-```
+When we run it again, we'll get the following output.
 
 The problem here is the single quotes. Elixir provides double quoted
 strings. Single quotes are for char lists. Let's fix this:
 
 ```
 response = conn(:get, "/movies")
-```
-
-```
-1) test listing movies (ListingMoviesIntegrationTest)
-   test/integration/listing_movies_test.exs:5
-   Assertion with == failed
-   code:  assert response.status() == 200
-   ...
 ```
 
 We don't have a status code because we are creating a connection, but
@@ -139,12 +114,6 @@ defmodule ListingMoviesIntegrationTest do
     assert response.status == 200
   end
 end
-```
-
-```
-1) test listing movies (ListingMoviesIntegrationTest)
-   test/integration/listing_movies_test.exs:7
-   ** (Phoenix.Router.NoRouteError) no route found for GET /movies (RephinkWeb.Router)
 ```
 
 The test fails because we don't have a route. We're making progress.
@@ -173,14 +142,6 @@ mix phx.routes
 We'll run the test again even though we know it is going to fail. In
 this case, we'll get the following output:
 
-```
-1) test listing movies (ListingMoviesIntegrationTest)
-   test/integration/listing_movies_test.exs:7
-   ** (Plug.Conn.WrapperError) ** (UndefinedFunctionError) function
-     RephinkWeb.MovieController.init/1 is undefined
-   ...
-```
-
 So, we need to create a controller. Let's create a `movie_controller.ex`
 file on the `lib/rephink_web/controllers` directory:
 
@@ -193,15 +154,6 @@ defmodule RephinkWeb.MovieController do
   end
 end
 ```
-
-```
-1) test listing movies (ListingMoviesIntegrationTest)
-   test/integration/listing_movies_test.exs:7
-   ** (Plug.Conn.WrapperError) ** (UndefinedFunctionError) function
-     RephinkWeb.MovieView.render/2
-   ...
-```
-
 Our action needs a view. Creating a `movie_view.ex` under
 `lib/rephink_web/views/movie_view.ex` will fix that:
 
@@ -236,4 +188,187 @@ curl localhost:4000/movies
 ```
 
 **Adding a Model**
+
+It works — our empty list is being returned. Now, we need to add a movie
+model to persist our movies. Again, we'll use TDD to drive how our model
+is going to look. We could read the model straight away, but adding it
+to our test first will give us some time to consider what we want it to
+look like. Let's give it a name and a rating, and assert its return:
+
+```
+defmodule ListingMoviesTest do
+  use ExUnit.Case, async: true
+  use Plug.Test
+  alias RephinkWeb.Router
+
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+  end
+
+  @opts Router.init([])
+  test 'listing movies' do
+    %Movie{name: "Back to the future", rating: 5} |> Repo.insert!
+
+    conn = conn(:get, "/movies")
+    response = Router.call(conn, @opts)
+
+    assert response.status == 200
+    assert response.resp_body == movies
+  end
+end
+```
+
+Structure does not exist yet. Let's create it using the generator:
+
+```
+mix phx.gen.schema Movie movies name rating:integer
+```
+
+Now, migrate and take a look at `test/rephink/movie/movie_test.exs`
+the generator created for us:
+
+```
+defmodule Rephink.MovieTest do
+  use Rephink.DataCase
+
+  alias Rephink.Movie
+
+  @valid_attrs %{name: "some content", rating: 42}
+  @invalid_attrs %{}
+
+  test "changeset with valid attributes" do
+    changeset = Movie.changeset(%Movie{}, @valid_attrs)
+    assert changeset.valid?
+  end
+
+  test "changeset with invalid attributes" do
+    changeset = Movie.changeset(%Movie{}, @invalid_attrs)
+    refute changeset.valid?
+  end
+end
+```
+
+Let's run this test: `mix test test/rephink/movie/movie_test.exs`
+
+When we run the integration test again, we'll get the following error:
+
+We've created our structure, but we haven't added it to our test. Let's
+add it: `alias Rephink.Movie`
+
+Let's run the test again:
+
+The structure is here, but we can't insert it without using:
+`alias Rephink.Repo`.
+
+There are still some things left to fix. First of all, we are returning
+a string, and we should be returning a list of movies. Let's fix that in
+`lib/rephink_web/controllers/movie_controller.exs`:
+
+```
+defmodule RephinkWeb.MovieController do
+  use RephinkWeb, :controller
+  alias Rephink.Movie
+  alias Rephink.Repo
+
+  def index(conn, _params) do
+    #  render conn, movies: []
+    movies = Repo.all(Movie)
+    render conn, movies: movies
+  end
+end
+```
+
+This means that we are trying to encode metadata for the client, and
+Poison won't allow us to dothis by default. We can solve this by
+implementing `Poison.Encoder` in our model.
+
+```
+defmodule Rephink.Movie do
+  use Ecto.Schema
+  import Ecto.Changeset
+  alias Rephink.Movie
+
+  schema "movies" do
+    field :name, :string
+    field :rating, :integer
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(%Movie{} = movie, attrs) do
+    movie
+    |> cast(attrs, [:name, :rating])
+    |> validate_required([:name, :rating])
+    |> unique_constraint(:name)
+  end
+
+  defimpl Poison.Encoder, for: Movie do
+    def encode(movie, _options) do
+      movie
+      |> Map.from_struct
+      |> Map.drop([:__meta__, :__struct__])
+      |> Poison.encode!
+    end
+  end
+end
+```
+
+Let's run the test again:
+
+Notice we get a JSON response, but it fails. Our expectation is not
+encoded. Let's encode the model we've just created in our integration
+test:
+
+```
+|> Repo.insert!
+|> Poison.encode!
+```
+
+The output now looks as follows errors:
+
+We're comparing a list with a single movie. Let's fix that:
+
+```
+defmodule ListingMoviesTest do
+  use ExUnit.Case, async: true
+  use Plug.Test
+  alias RephinkWeb.Router
+  alias Rephink.Movie
+  alias Rephink.Repo
+
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+  end
+
+  @opts Router.init([])
+  test 'listing movies' do
+    %Movie{name: "Back to the future", rating: 5} |> Repo.insert!
+    movies = Repo.all(Movie)
+      |> Poison.encode!
+
+    conn = conn(:get, "/movies")
+    response = Router.call(conn, @opts)
+
+    assert response.status == 200
+    assert response.resp_body == movies
+  end
+end
+```
+
+Let's try using it with Curl: `curl localhost:4000/movies`
+
+Our resource is done. Let's run all of our specs to make sure everything
+is working before going further: `mix test`.
+
+When we run the test again, everything should be working properly.
+
+**Conclusion**
+
+When writing code, we need to have confidence in what we do, and TDD is
+a powerful tool for this. The feedback it gives us can make things
+clearer when we're not sure how to implement a feature. The faster this
+feedback loop is, the faster we'll move forward, even with new
+technologies.
+
 ### 2017 August Oleg G.Kapranov
